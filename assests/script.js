@@ -60,3 +60,64 @@ let getForecast = (city) => {
         });
     });
 };
+// submitQuery => listCity, getWeather, getForecast
+let submitQuery = (event) => {
+  event.preventDefault();
+  let cityEl = cityInput.value.trim();
+  let btn = document.createElement("button"); 
+  btn.className = "searched-list btn";
+  btn.innerHTML = cityEl;
+  buttons.appendChild(btn);
+  listCity();
+  if(!citiesList.includes(cityEl) && (cityEl != "")) {
+    citiesList.push(cityEl);
+  };
+  localStorage.setItem("citiesList", JSON.stringify(citiesList));
+  if(cityEl) {
+    getWeather(cityEl);
+    getForecast(cityEl);
+    cityInput.value = "";
+  } else {
+    alert("Enter a city name to get the weather!");
+  }
+};
+
+// PAST CITY SEARCHES
+let listCity = () => {
+  citiesList = JSON.parse(localStorage.getItem("citiesList"));
+  if(!citiesList) {
+    citiesList = [];
+  };
+};
+
+// ADD BUTTONS TO SEARCH HISTORY
+let addList = () => {
+  for(var i = 0; i < citiesList.length; i++) {
+    let btn = document.createElement("button");
+    btn.className = "searched-list btn"; // one for identifying as list item, one for styling
+    btn.innerHTML = citiesList[i];
+    buttons.appendChild(btn); // maybe add a clear buttons option in future
+  };
+
+  // USE PAST SEARCH BUTTON
+  let listButtons = document.querySelectorAll(".searched-list");
+  for(var i = 0; i < listButtons.length; i++) {
+    listButtons[i].addEventListener("click", (event) => {
+      getWeather(event.target.textContent);
+      getForecast(event.target.textContent);
+    })
+  }
+};
+
+// TODAY WEATHER
+let showWeather = (weather, searchQuery) => {
+  cityEl.textContent = searchQuery;
+  iconEl = weather.weather[0].icon;
+  document.getElementById("todayIcon")
+  document.getElementById("todayTemp")
+    .innerHTML = weather.main.temp;
+  document.getElementById("todayHumidity")
+    .innerHTML = weather.main.humidity;
+  document.getElementById("todayWind")
+    .innerHTML = weather.wind.speed;
+};
