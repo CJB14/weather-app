@@ -19,5 +19,4 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 
 # screenshot
-/Users/cameronburney/Desktop/Challenges/weather-app/Screenshot 2023-03-10 at 1.36.21 PM.png
-
+assests/Screenshot 2023-03-10 at 1.36.21 PM.png
